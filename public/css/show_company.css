@@ -1,0 +1,144 @@
+.show_company h1 {
+    color: white;
+    font-size: 40px;
+    margin: 0;
+    padding-top: 30px;
+    text-transform: uppercase;
+
+}
+
+.show_company {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: max-content;
+}
+
+.line {
+    background-color: white;
+    border: 2px white solid;
+    border-radius: 15px;
+    width: 200px;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+    width: 800px;
+    height: max-content;
+}
+
+form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+
+.filter-button {
+    border: none;
+    color: #06CC69;
+    background-color: white;
+    padding: 7px 18px;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 5px;
+}
+
+.filter-button:hover {
+    background-color: rgba(255, 255, 255, 0.86);
+    cursor: pointer;
+}
+
+/*
+.add {
+    border: none;
+    color: white;
+    background-color: #085830;
+    padding: 5px 25px;
+    font-size: 22px;
+    font-weight: 700;
+    border-radius: 5px;
+
+}
+
+.add:hover {
+    background-color: rgba(8, 88, 48, 0.82);
+    cursor: pointer;
+}
+*/
+
+
+select {
+    background-color: #085830;
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 10px 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+}
+
+select option {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+table {
+    background-color: rgba(255, 255, 255, 0.829);
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
+    padding: 10px 25px;
+
+}
+
+#name-filter {
+    height: 40px;
+    width: 270px;
+    -webkit-box-shadow: 5px 5px 0px -1px rgba(8, 100, 177, 0.2);
+    box-shadow: 5px 5px 0px -1px rgba(8, 100, 177, 0.2);
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#name-filter:focus {
+    outline-color: #06cc69;
+    outline-width: 1px;
+    box-shadow: none;
+}
+
+::-webkit-scrollbar {
+    width: 13px;
+    height: 13px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555050;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(85, 80, 80, 0.75);
+}
+
+::-webkit-scrollbar-track {
+    background: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: inset 7px 10px 12px 0 #F0F0F0;
+}
+
+.vanish{
+    display: none;
+    height: 0;
+}

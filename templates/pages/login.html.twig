@@ -1,0 +1,58 @@
+{% extends 'pages/home.html.twig' %}
+
+{% block title %} Sign in{% endblock %}
+    {% block stylesheets %}
+        <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+        <link href="{{ asset('login_page.css','css') }}" rel="stylesheet"/>
+
+         <style>
+            body {
+                background-image: url({{ asset('login_background.jpg','login_page_images') }});
+                background-size: cover;
+            }
+
+            .checkbox:checked {
+                background-image: url('{{ asset('checked.svg','login_page_images') }}');
+            }
+        </style>
+    {% endblock %}
+
+
+
+	{% block body %}
+
+        {% block nav %}
+            {{ parent() }}
+        {% endblock %}
+
+          <section class="login_page">
+
+              <img src="{{ asset('contact_icon.svg','login_page_images') }}" alt="icone de contact"
+                 class="contact_icon"/>
+
+            <form method="post">
+
+                <div class="username">
+                    <img src="{{ asset('username_icon.svg','login_page_images') }}" alt="Icone username">
+                    <input placeholder="Email" value="{{ last_username }}" name="_username" id="username"
+                           type="text" class="input"/>
+                </div>
+
+                <div class="password">
+                    <img src="{{ asset('password_icon.svg','login_page_images') }}" alt="Icone password">
+                    <input placeholder="........" name="_password" id="inputPassword" type="password" class="input">
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <button type="submit" class="login-button"> Login</button>
+
+                <div class="check">
+                    <label><input type="checkbox" class="checkbox" style="">Remember me</label>
+                    <a href="#">forgot your password?</a>
+                </div>
+
+            </form>
+            <img src="{{ asset('line.svg','login_page_images') }}" alt="ligne" class="line"/>
+            <p class=>You don't have account ? <a href="{{ path('user.create.choice') }}">Sign Up now</a></p>
+        </section>
+{% endblock %}

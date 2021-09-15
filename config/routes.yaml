@@ -1,0 +1,124 @@
+home:
+    path: /home
+    controller: App\Controller\HomeController::index
+
+user.profile:
+    path: /profile
+    controller: App\Controller\SecurityController::profile
+
+user.login:
+    path: /login
+    controller: App\Controller\SecurityController::login
+
+user.logout:
+    path: /logout
+    controller: App\Controller\SecurityController::logout
+
+user.create.choice:
+    path: /create/choice
+    controller: App\Controller\SecurityController::createChoice
+
+user.create.donator:
+    path: /admin/create/donator
+    controller: App\Controller\SecurityController::createCompany
+
+user.create.company:
+    path: /create/company
+    controller: App\Controller\SecurityController::createCompany
+
+admin.home:
+    path: /admin/home
+    controller: App\Controller\AdminController::index
+
+
+
+
+
+admin.zone.edit:
+    path: /admin/zone/edit/{id}
+    controller: App\Controller\AdminController::editZone
+    methods: GET|POST
+    requirements:
+        id: '\d+'
+
+admin.zones.show:
+    path: /admin/zons/show
+    controller: App\Controller\AdminController::showZones
+
+admin.zone.create:
+    path: /admin/zone/create
+    controller: App\Controller\AdminController::createZone
+
+admin.zone.remove:
+    path: /admin/zone/remove/{id}
+    controller: App\Controller\Admin\AdminController::removeZone
+    methods: DELETE
+    requirements:
+        id : '\d+'
+
+
+
+
+admin.category.create:
+    path: /admin/category/create
+    controller: App\Controller\AdminController::addCategory
+
+admin.categories.show:
+    path: /admin/categories/show
+    controller: App\Controller\AdminController::showCategories
+
+admin.category.edit:
+    path: /admin/category/edit/{id}
+    controller: App\Controller\AdminController::editCategory
+    methods: GET|POST
+    requirements:
+        id: '\d+'
+
+admin.category.remove:
+    path: /admin/category/remove/{id}
+    controller: App\Controller\Admin\AdminController::removeCategory
+    methods: DELETE
+    requirements:
+        id : '\d+'
+
+
+admin.item.create:
+    path: /admin/item/create
+    controller: App\Controller\AdminController::addItem
+
+admin.items.show:
+    path: /admin/items/show
+    controller: App\Controller\AdminController::showItems
+
+admin.item.edit:
+    path: /admin/item/edit/{id}
+    controller: App\Controller\AdminController::editItem
+    methods: GET|POST
+    requirements:
+        id: '\d+'
+
+admin.item.remove:
+    path: /admin/item/remove/{id}
+    controller: App\Controller\Admin\AdminController::removeItem
+    methods: DELETE
+    requirements:
+        id : '\d+'
+
+admin.company.remove:
+    path: /admin/company/remove/{id}
+    controller: App\Controller\Admin\AdminController::removeCompany
+    methods: DELETE
+    requirements:
+        id : '\d+'
+
+admin.company.activate:
+    path: /admin/company/{id}/activate
+    controller: App\Controller\AdminController::activateCompany
+
+admin.company.edit:
+    path: /admin/company/{id}/edit
+    controller: App\Controller\AdminController::editCompany
+
+admin.companies.show:
+    path: /admin/companies
+    controller: App\Controller\AdminController::showCompanies

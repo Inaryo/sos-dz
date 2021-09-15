@@ -1,0 +1,134 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Acceuil
+{% endblock %}
+
+
+{% block stylesheets %}
+	<link href="{{asset('header.css','css') }}" rel="stylesheet"/>
+	<link href="{{asset('nav_bar.css','css') }}" rel="stylesheet"/>
+	<link href="{{asset('newsletter.css','css') }}" rel="stylesheet"/>
+	<link href="{{asset('landing_page.css','css') }}" rel="stylesheet"/>
+	<link href="{{asset('footer.css','css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+
+	{% block header %}
+		{% block header_background %}
+		<header style="background-image: url({{asset('background.png','landing_page_images')}});">
+		{% endblock %}
+		
+			
+	{% block nav %}
+		<nav class="navigation_bar">
+			<div class="logo">
+				<a href='{{ path('home') }}'  >LOGO HERE</a>
+			</div>
+			<ul>
+				<li><a href='{{ path('home') }}#about' alt="About Us">About Us</a></li>
+
+				{% if app.user %}
+					<li><a href='{{ path('user.logout') }}' alt="Logout">Logout</a></li>
+					<li><a href='{{ path('user.profile') }}' alt="Home page">Profile</a></li>
+				{% else  %}
+					<li><a href='{{ path('user.create.choice') }}' alt="Register">Register</a></li>
+					<li><a href='{{ path('user.login') }}' alt="Sign In">Sign in</a></li>
+					<li><a href='{{ path('user.profile') }}' alt="Home page">Profile</a></li>
+				{% endif %}
+
+				{% if is_granted('ROLE_MODERATOR') %} <li><a href='{{ path('admin.home') }}' alt="Admin Panel">Admin</a></li> {% endif %}
+			</ul>
+
+			</nav>
+			{% endblock %}
+			{% block slogan %}<div class="slogan">{% endblock %}
+				{% block texts %}
+				<div class="texts">
+					<h1>Lorem Ipsum</h1>
+					<p>
+						Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+					</p>
+				</div>
+				{% endblock %}
+				{% block image_header %}
+				<img src="{{ asset('header_image.png','landing_page_images')}}" alt="Image pour le header">
+				{% endblock %}
+									
+			</div>
+		</header>
+	{% endblock %}	
+	
+	
+
+	<section class="section about" id="about">
+		<h2>About Us</h2>
+		<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
+		</p>
+	</section>
+
+	<section class="section disasters">
+		<h2>Types of Disasters</h2>
+		<div class="disaster">
+			<div class="images"></div>
+			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only
+			</p>
+		</div>
+
+	</div>
+</section>
+{% block newsletter %}
+<section class="newsletter">
+	<p>Join our newsletter to stay updated</p>
+	<form action="" method="post">
+		<input placeholder="Your email address" type="email" class="input">
+		<input class="newsletter-button" href="#" type="submit" value="Join Newsletter">
+	</form>
+</section>
+{% endblock %}
+
+
+<section class="contact section">
+	<h2 class="title">Contact Us</h2>
+	<form class="form-contact" method="post">
+		<div class="name">
+			<label>First Name
+				<input type="text" class="input"></label>
+			<label>Last Name
+				<input type="text" class="input"></label>
+		</div>
+		<label class="subject">Subject<input type="text" class="input subject"></label>
+		<label class="message">Message<textarea type="text" class="text-area input"></textarea>
+		</label>
+		<input type="submit" value="Send Message" class="send-message-button">
+	</form>
+</section>
+	{% block footer %}
+		<footer>
+			<div class="info-div">
+				<div class="logo">
+				<a href='{{ path('home') }}' alt="Logo Path">LOGO HERE</a>
+			</div>
+			<div class="informations">
+				<p>informations</p>
+				<p></p>
+				<p>informations</p>
+				<p></p>
+				<p>informations</p>
+				<p></p>
+				<p>informations</p>
+				<p></p>
+			</div>
+			</div>
+			<div class="social-media">
+				<p>Stay connected with</p>
+				<a href="#"><img src="{{asset('facebook.svg','landing_page_images') }}" alt="icone de facebook "></a>
+				<a href="#"><img src="{{asset('twitter.svg','landing_page_images') }}" alt="icone de twitter "></a>
+				<a href="#"><img src="{{asset('instagram.svg','landing_page_images') }}" alt="icone d'instagram"></a>
+				<a href="#"><img src="{{asset('linkdin.svg','landing_page_images') }}" alt="icone de linkdin "></a>
+				<a href="#"><img src="{{asset('youtube.svg','landing_page_images') }}" alt="icone de youtube "></a>
+			</div>
+		</footer>	
+{% endblock %}
+{% endblock %}

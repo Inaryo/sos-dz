@@ -1,0 +1,32 @@
+{% extends 'pages/home.html.twig' %}
+{% block title %}Add Company{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('adding_company.css','css') }}" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url("{{asset('background_company.png','adding_company_images')}}");
+            background-size: cover;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+
+    <section class="adding_business">
+        {% block  nav %}{{ parent() }}{% endblock %}
+
+        <h1>Adding An Item</h1>
+        <div class="line"></div>
+        <form method="post" class="business-form">
+            <label>
+                <span class="text-label">Name</span>
+                <input name="item_name" type="text"/>
+            </label>
+            <button type="submit"  class="add-button">Add</button>
+        </form>
+
+    </section>
+
+{% endblock %}

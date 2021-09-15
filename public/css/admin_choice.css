@@ -1,0 +1,42 @@
+.admin {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  height: max-content;
+  padding: 100px 0;
+}
+.admin-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 25px;
+}
+.admin-image {
+  width: 200px;
+  height: 200px;
+  border: 4px #06cc69 solid;
+  border-radius: 100%;
+}
+.item-title {
+  color: #06cc69;
+}
+.admin-button {
+  background-color: #06cc69;
+  padding: 5px 30px;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 20px;
+}
+.admin-button:hover {
+  color: rgba(218, 218, 218, 0.767);
+}
+
+section.newsletter {
+  border-bottom: white 1px solid;
+}
+
+.navigation_bar{
+  background-color: #06cc69;
+  padding: 25px 0;
+
+}

@@ -1,0 +1,69 @@
+
+
+{% extends '/pages/home.html.twig' %}
+    {% block title %}View Companies{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('show_company.css','css') }}" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url("{{ asset('show_company.jpg','show_company_images') }}");
+            background-size: cover;
+        }
+
+    </style>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('name_filter.js','js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% block nav %}{{ parent() }}{% endblock %}
+    <section class="show_company">
+        <h1>Items Of Inventory</h1>
+        <div class="line"></div>
+        <div class="wrapper">
+            <form method="POST">
+                <input type="text" id="name-filter" placeholder="Name">
+            </form>
+            <a  class="filter-button" href="{{ path('admin.item.create') }}">Add</a>
+
+
+
+            <table>
+                <thead>
+                <tr>
+
+                    <th>Zone</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for item in items %}
+
+                    <tr class="row">
+                        <td class="name">{{ item.name }}</td><!--Name value-->
+                        <td>
+                            <a href="{{ path('admin.item.edit',{'id': item.id }) }}">Editer</a>
+
+                            <form method="post" action="{{ path('admin.item.remove',{id: item.id}) }}"
+                                  onsubmit="return confirm('Are you sure ?')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ item.id) }}">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+{% endblock %}

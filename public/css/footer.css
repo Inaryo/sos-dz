@@ -1,0 +1,23 @@
+footer {
+    background-color: #06cc69;
+    height: max-content;
+    padding: 100px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .info-div {
+    display: flex;
+    align-items: flex-start;
+  }
+  .informations {
+    margin-left: 25px;
+    color: white;
+  }
+  .social-media p {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .social-media a img {
+    margin: 5px;
+  }

@@ -1,0 +1,66 @@
+security:
+
+    enable_authenticator_manager: true
+    # https://symfony.com/doc/current/security.html#c-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User:
+            algorithm: auto
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+
+    providers:
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path: /
+            lazy: true
+            provider: app_user_provider
+            logout:
+                path: user.logout
+                target: home
+
+            form_login:
+                enable_csrf: true
+                login_path: user.login
+                check_path: user.login
+                use_referer: true
+
+            entry_point: form_login
+            custom_authenticator: App\Security\UsernameAuthenticator
+
+
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+#        - { path: ^/admin, roles: ROLE_ADMIN }
+#        - { path: ^/profile, roles: ROLE_COMPANY }
+#         - { path: ^/home, roles: []}
+#         - { path: ^/login, roles: []}
+#         - { path: ^/logout, roles: []}
+#         - { path: ^/create, roles: []}
+#         - { path: ^/ ,roles: ROLE_USER }
+
+
+    role_hierarchy:
+        ROLE_COMPANY_DEACTIVATED: ROLE_USER
+        ROLE_COMPANY: ROLE_COMPANY_DEACTIVATED
+        ROLE_REGISTERED: ROLE_COMPANY
+        ROLE_MODERATOR: ROLE_REGISTERED
+        ROLE_ADMIN: ROLE_MODERATOR
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]

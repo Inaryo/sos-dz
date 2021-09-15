@@ -1,0 +1,33 @@
+header {
+    background-size: cover;
+    height: max-content;
+    padding-bottom: 100px;
+  }
+  
+  header a{
+    text-decoration: none;
+    color: white;
+  }
+  
+  .slogan {
+    display: flex;
+    margin: 75px 50px;
+    color: white;
+    justify-content: space-around;
+  }
+  .texts {
+    width: 50vw;
+    text-align: center;
+  }
+  .texts h1 {
+    font-size: 56px;
+    font-weight: 800;
+  }
+  .texts p {
+    line-height: 40px;
+    font-weight: 600;
+  }
+  .slogan img {
+    width: 500px;
+    height: auto;
+  }

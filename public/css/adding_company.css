@@ -1,0 +1,77 @@
+.adding_business {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 10vh;
+}
+
+.navigation_bar {
+    width: 100%;
+}
+
+h1 {
+    color: white;
+    font-size: 40px;
+    margin: 0;
+    padding-top: 30px;
+    font-weight:700;
+}
+
+.line {
+    background-color: white;
+    border: 2px white solid;
+    border-radius: 15px;
+    width: 200px;
+    margin-top: 15px;
+}
+
+.business-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 25px;
+    justify-content: space-evenly;
+    background-color: rgba(255, 255, 255, 0.829);
+    padding: 40px 50px;
+    border-radius: 34px;
+}
+
+.business-form label {
+    display: flex;
+    flex-direction: column;
+    margin: 15px 0;
+}
+
+.business-form label input {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 40px;
+    border: #06cc69 2px solid;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.business-form label input:focus {
+    outline: none;
+}
+
+.text-label {
+    color: #06cc69;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.add-button {
+    color: #06cc69;
+    background-color: white;
+    text-decoration: none;
+    margin-top: 25px;
+    padding: 15px 70px;
+    font-size: 24px;
+    font-weight: 700;
+    border-radius: 50px;
+}
