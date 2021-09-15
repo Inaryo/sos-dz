@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\UserSearch;
+use App\Entity\Zone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
@@ -91,5 +92,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $query->getQuery();
 
+    }
+
+    /**
+     * @param int $zone
+     * @return User[]
+     */
+    public function findCompaniesByZone(Zone $zone): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.zone = :val')
+            ->setParameter('val', $zone)
+            ->andWhere('u.activated = true')
+            ->orderBy('u.username', 'ASC')
+            ->getQuery()
+            ->getResult();
     }
 }

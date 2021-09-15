@@ -4,25 +4,32 @@ namespace  App\Controller;
 
 
 
+use App\Entity\Catastrophe;
 use App\Entity\Category;
 use App\Entity\Item;
+use App\Entity\Plan;
 use App\Entity\User;
 use App\Entity\UserSearch;
 use App\Entity\Zone;
+use App\Form\CatastropheType;
 use App\Form\CategoryType;
 use App\Form\ItemType;
 use App\Form\UserSearchType;
 use App\Form\UserType;
 use App\Form\ZoneType;
+use App\Repository\CatastropheRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ItemRepository;
+use App\Repository\PlanRepository;
 use App\Repository\UserRepository;
 use App\Repository\ZoneRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
@@ -47,8 +54,13 @@ class AdminController extends  AbstractController
      * @var EntityManagerInterface
      */
     private $em;
+    private $catastrophesRepository;
+    /**
+     * @var PlanRepository
+     */
+    private $planRepository;
 
-    public function __construct(EntityManagerInterface $em,UserRepository $userRepository,Environment $render,ZoneRepository $zonesRepository,CategoryRepository $categoriesRepository,ItemRepository $itemsRepository)
+    public function __construct(PlanRepository $planRepository,CatastropheRepository $catastrophesRepository,EntityManagerInterface $em,UserRepository $userRepository,Environment $render,ZoneRepository $zonesRepository,CategoryRepository $categoriesRepository,ItemRepository $itemsRepository)
     {
         $this->itemsRepository = $itemsRepository;
         $this->categoriesRepository = $categoriesRepository;
@@ -56,6 +68,8 @@ class AdminController extends  AbstractController
         $this->em = $em;
         $this->userRepository = $userRepository;
         $this->render = $render;
+        $this->catastrophesRepository = $catastrophesRepository;
+        $this->planRepository = $planRepository;
     }
 
     public function index() {
@@ -124,6 +138,8 @@ class AdminController extends  AbstractController
             'items' => $items
         ]);
     }
+
+
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -219,6 +235,8 @@ class AdminController extends  AbstractController
         ]);
     }
 
+
+
     public function editZone(Zone $zone,Request $request) {
 
         $form = $this->createForm(ZoneType::class,$zone);
@@ -256,6 +274,8 @@ class AdminController extends  AbstractController
 
             return $this->redirectToRoute('admin.home');
         }
+
+
 
 
     /////////////////////////////////////////////////////////////////////
@@ -348,6 +368,201 @@ class AdminController extends  AbstractController
         return $return_array;
 
     }
+
+
+
+
+
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////
+
+    public function activatePlanChoice() {
+
+        $catastrophes = $this->catastrophesRepository->findAll();
+
+
+        return $this->render("pages/admin/catastrophes/admin.catastrophe.choice.html.twig",[
+            "catastrophes" => $catastrophes
+        ]);
+    }
+
+    public function activatePlan(Catastrophe $catastrophe,Request $request) {
+
+
+
+                $return_array = [];
+                $array =  $this->getData($catastrophe);
+
+                foreach ($array as $id => $val) {
+                    $item = $this->itemsRepository->find($id);
+                    $return_array[$item->getName()] = $val;
+                }
+
+
+                return  $this->render("pages/admin/catastrophes/admin.catastrophe.activate.html.twig",[
+                    "items" => $return_array,
+                    "catastrophe_id" => $catastrophe->getId()
+                ]);
+
+    }
+
+    public function activatePlanConfirmed(Catastrophe $catastrophe,Request $request) {
+
+        if ($this->isCsrfTokenValid('activation_confirmed' . $catastrophe->getId(),$request->get("_token"))) {
+
+            $zone = $this->getUser()->getZone();
+            $plan = new Plan();
+            $besoins = $this->getData($catastrophe);
+
+
+            $plan
+                ->setActivate(true)
+                ->setZone($zone)
+                ->setBesoins($besoins)
+                ->setCatastrophe($this->catastrophesRepository->find($catastrophe->getId()))
+                ->setDate(new \DateTime());
+            $this->em->persist($plan);
+            $this->em->flush();
+
+            $this->addFlash("success", "Plan Activé et Email Envoyé à Toutes Les Entreprises ");
+            return $this->redirectToRoute("admin.plans.show");
+        }
+
+
+    }
+
+    private  function getData(Catastrophe $catastrophe) {
+
+        $besoinsArray = $catastrophe->getBesoins();
+
+
+        $zone = $this->zonesRepository->find($this->getUser()->getZone());
+        $companies = $this->userRepository->findCompaniesByZone($zone);
+        $besoinsArray = $besoinsArray->toArray();
+
+
+        for ($i = 0; $i < count($besoinsArray) ;$i = $i +1) {
+            $count = 0;
+            $item = $besoinsArray[$i];
+
+            for ($j = 0; $j < count($companies); $j++) {
+                $company = $companies[$j];
+                $inventory = $company->getInventory();
+
+                $content = $inventory->getContent();
+                if (key_exists($item->getId(), $content)) {
+                    $value = $content[$item->getId()];
+                    $count += $value;
+                }
+            }
+            $return_array[$item->getId()] = $count;
+        }
+
+        return $return_array;
+
+    }
+
+
+
+    public function addCatastrophe(Request $request) {
+
+        $catastrophe = new Catastrophe();
+
+        $form = $this->createForm(CatastropheType::class,$catastrophe);
+        $form->add('besoins',EntityType::class,[
+            'label' => "Besoins",
+            'class' => Item::class,
+            'choice_label' => 'name',
+            'choices' => $this->itemsRepository->findAll(),
+            'multiple' => true]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($catastrophe);
+            $this->em->flush();
+            $this->addFlash('success',"Catastrophe crée avec succès");
+            return $this->redirectToRoute('admin.catastrophe.show');
+        }
+
+        return $this->render("pages/admin/catastrophes/admin.catastrophe.create.html.twig",[
+            "form" => $form->createView()
+        ]);
+
+    }
+
+
+    public function showCatastrophes()
+    {
+            $catastrophes = $this->catastrophesRepository->findAll();
+            return $this->render("pages/admin/catastrophes/admin.catastrophes.show.html.twig",[
+                "catastrophes" => $catastrophes
+            ]);
+    }
+
+    public function removeCatastrophe(Catastrophe $catastrophe,Request $request)
+    {
+        if ($this->isCsrfTokenValid('remove' . $catastrophe->getId(),$request->get("_token"))) {
+                $this->em->remove($catastrophe);
+                $this->em->flush();
+                $this->addFlash('success',"Catastrophe Supprimée Avec Succès");
+                return $this->redirectToRoute('admin.catastrophe.show');
+            }
+
+        return $this->redirectToRoute('admin.catastrophe.show');
+    }
+
+    public function editCatastrophe(Catastrophe $catastrophe,Request $request)
+    {
+
+        $form = $this->createForm(CatastropheType::class,$catastrophe);
+        $form->add('besoins',EntityType::class,[
+            'label' => "Besoins",
+            'class' => Item::class,
+            'choice_label' => 'name',
+            'choices' => $this->itemsRepository->findAll(),
+            'multiple' => true]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash("success","Catastrophe edité avec succès");
+            return $this->redirectToRoute("admin.catastrophe.show");
+        }
+        return $this->render("pages/admin/catastrophes/admin.catastrophe.edit.html.twig",[
+            "form" => $form->createView()
+        ]);
+    }
+
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
+
+    public function showPlans()
+    {
+            $plans = $this->planRepository->findAllByOrder();
+
+            return $this->render("pages/admin/plans/admin.plans.show.html.twig",[
+                "plans" => $plans
+            ]);
+        }
+
+    public function desactivatePlan(Plan $plan,Request $request)
+    {
+        if ($this->isCsrfTokenValid('desactivate' . $plan->getId(),$request->get("_token"))) {
+
+           $plan->setActivate(false);
+            $this->em->flush();
+            $this->addFlash('success',"Plan Desactivé Avec Succès, Emails Envoyés à toutes les Entreprises");
+            return $this->redirectToRoute('admin.plans.show');
+        }
+
+        return $this->redirectToRoute('admin.plans.show');
+    }
+
+
 
 }
 

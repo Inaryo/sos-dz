@@ -1,0 +1,71 @@
+{% extends '/pages/home.html.twig' %}
+    {% block title %}View Companies{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('show_company.css','css') }}" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url("{{ asset('show_company.jpg','show_company_images') }}");
+            background-size: cover;
+        }
+
+    </style>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('name_filter.js','js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% block nav %}{{ parent() }}{% endblock %}
+    <section class="show_company">
+        <h1>Companies</h1>
+        <div class="line"></div>
+        <div class="wrapper">
+            <form method="POST">
+                <input type="text" id="name-filter" placeholder="Name">
+            </form>
+            <a  class="filter-button" href="{{ path('admin.catastrophe.choice') }}">Add</a>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Catastrophe</th>
+                    <th>Zone</th>
+                    <th>Active</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for plan in plans %}
+                    <tr class="row">
+                        <td class="name">{{ plan.id }}</td><!--Name value-->
+                        <td>{{ plan.catastrophe.name }}</td><!--Zone value-->
+                        <td>{{ plan.zone.name }}</td><!--Zone value-->
+                         <td> {% if plan.activate %} Active {% else  %} Terminé {% endif %}</td>
+                        <td>{{ plan.date|date("m/d/Y") }}</td><!--Category value-->
+                        <td>
+                            {% if plan.activate %}
+                                <form method="post" action="{{ path('admin.plan.deactivate',{'id': plan.id }) }}"
+                                      onsubmit="return confirm('Are you sure to desactivate this Emergency Plan and Send Emails To Compagnies ?')">
+                                    <input type="hidden" name="_method" value="DESACTIVATE">
+                                    <input type="hidden" name="_token"
+                                           value="{{ csrf_token('desactivate' ~ plan.id) }}">
+                                    <button type="submit">Desactivate</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+{% endblock %}

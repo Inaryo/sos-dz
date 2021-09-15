@@ -48,12 +48,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-#        - { path: ^/admin, roles: ROLE_ADMIN }
-#        - { path: ^/profile, roles: ROLE_COMPANY }
-#         - { path: ^/home, roles: []}
-#         - { path: ^/login, roles: []}
-#         - { path: ^/logout, roles: []}
-#         - { path: ^/create, roles: []}
+#         - { path: ^/catastrophe, roles: ROLE_ADMIN }
+#         - { path: ^/admin, roles: ROLE_MODERATOR }
+#         - { path: ^/profile, roles: ROLE_COMPANY }
+#         - { path: ^/home, roles: }
+#         - { path: ^/login, roles:  }
+#         - { path: ^/logout, roles: }
+#         - { path: ^/create, roles: }
 #         - { path: ^/ ,roles: ROLE_USER }
 
 

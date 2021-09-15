@@ -122,3 +122,52 @@ admin.company.edit:
 admin.companies.show:
     path: /admin/companies
     controller: App\Controller\AdminController::showCompanies
+
+
+admin.catastrophe.choice:
+    path: /admin/catastrophe/choice
+    controller: App\Controller\AdminController::activatePlanChoice
+
+
+admin.catastrophes.activate:
+    path: /admin/catastrophe/activate/{id}
+    controller: App\Controller\AdminController::activatePlan
+
+
+admin.catastrophe.create:
+    path: /admin/catastrophe/create
+    controller: App\Controller\AdminController::addCatastrophe
+
+admin.catastrophe.show:
+    path: /admin/catastrophes/show
+    controller: App\Controller\AdminController::showCatastrophes
+
+admin.catastrophe.edit:
+    path: /admin/catastrophe/edit/{id}
+    controller: App\Controller\AdminController::editCatastrophe
+
+
+admin.catastrophe.remove:
+    path: /admin/catastrophe/remove/{id}
+    controller: App\Controller\AdminController::removeCatastrophe
+    methods: DELETE
+    requirements:
+        id: '\d+'
+
+
+admin.plans.show:
+    path: /admin/plans/show
+    controller: App\Controller\AdminController::showPlans
+
+
+admin.plan.deactivate:
+    path: /admin/plan/desactivate/{id}
+    controller: App\Controller\AdminController::desactivatePlan
+    requirements:
+        id: '\d+'
+
+admin.plan.activate:
+    path: /admin/plan/activate/{id}
+    controller: App\Controller\AdminController::activatePlanConfirmed
+    requirements:
+        id: '\d+'

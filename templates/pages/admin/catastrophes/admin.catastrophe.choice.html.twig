@@ -1,0 +1,46 @@
+{% extends "pages/home.html.twig" %}
+
+{% block title %}Admin{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{asset('header.css','css') }}" rel="stylesheet"/>
+    <link href="{{asset('newsletter.css','css') }}" rel="stylesheet"/>
+    <link href="{{asset('footer.css','css') }}" rel="stylesheet"/>
+    <link href="{{asset('admin_choice.css','css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+
+    {% block nav %}
+        {{ parent() }}
+    {% endblock %}
+
+
+
+
+    <section class="admin">
+        <h1>Activer le plan pour {{ app.user.zone.name }}</h1>
+
+        <h5>Sachant que vous detenez un compte Administrateur pour la Zone {{ app.user.zone.name }}, vous ne pouvez Activer le plan pour une autre zone</h5>
+        {% for catastrophe in catastrophes %}
+            <div class="admin-item">
+                <div class="admin-image"></div>
+                <h2 class="item-title">{{ catastrophe.name }}</h2>
+
+                <form method="post" action="{{ path('admin.catastrophes.activate',{id: catastrophe.id}) }}" onsubmit="return confirm('Are you sure to Activate the plan?')">
+                        <input type="hidden" name="_method" value="ACTIVATE">
+                        <input type="hidden" name="catastrophe" value="{{ catastrophe.id }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token('activate' ~ catastrophe.id) }}">
+                        <button type="submit">Activer le Plan</button>
+                </form>
+            </div>
+        {% endfor %}
+
+    </section>
+
+    {% block newsletter %}{% endblock %}
+    {% block footer %}{{parent()}}{% endblock %}
+
+{% endblock %}
+

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ZoneRepository;
+use App\Repository\CatastropheRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ZoneRepository::class)
+ * @ORM\Entity(repositoryClass=CatastropheRepository::class)
  */
-class Zone
+class Catastrophe
 {
     /**
      * @ORM\Id
@@ -25,18 +25,18 @@ class Zone
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="zone")
+     * @ORM\ManyToMany(targetEntity=Item::class, inversedBy="catastrophes")
      */
-    private $users;
+    private $besoins;
 
     /**
-     * @ORM\OneToMany(targetEntity=Plan::class, mappedBy="zone")
+     * @ORM\OneToMany(targetEntity=Plan::class, mappedBy="catastrophe")
      */
     private $plans;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->besoins = new ArrayCollection();
         $this->plans = new ArrayCollection();
     }
 
@@ -58,31 +58,25 @@ class Zone
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|Item[]
      */
-    public function getUsers(): Collection
+    public function getBesoins(): Collection
     {
-        return $this->users;
+        return $this->besoins;
     }
 
-    public function addUser(User $user): self
+    public function addBesoin(Item $besoin): self
     {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setZone($this);
+        if (!$this->besoins->contains($besoin)) {
+            $this->besoins[] = $besoin;
         }
 
         return $this;
     }
 
-    public function removeUser(User $user): self
+    public function removeBesoin(Item $besoin): self
     {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getZone() === $this) {
-                $user->setZone(null);
-            }
-        }
+        $this->besoins->removeElement($besoin);
 
         return $this;
     }
@@ -99,7 +93,7 @@ class Zone
     {
         if (!$this->plans->contains($plan)) {
             $this->plans[] = $plan;
-            $plan->setZone($this);
+            $plan->setCatastrophe($this);
         }
 
         return $this;
@@ -109,8 +103,8 @@ class Zone
     {
         if ($this->plans->removeElement($plan)) {
             // set the owning side to null (unless already changed)
-            if ($plan->getZone() === $this) {
-                $plan->setZone(null);
+            if ($plan->getCatastrophe() === $this) {
+                $plan->setCatastrophe(null);
             }
         }
 

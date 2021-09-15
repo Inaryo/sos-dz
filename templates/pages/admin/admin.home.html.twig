@@ -26,8 +26,8 @@
     <section class="admin">
         <div class="admin-item">
             <div class="admin-image"></div>
-            <h2 class="item-title">Activer le plan d'urgence</h2>
-            <a href="#" class="admin-button">Activate</a>
+            <h2 class="item-title">Liste des Plans d'urgence</h2>
+            <a href="{{ path('admin.plans.show') }}" class="admin-button">List</a>
         </div>
         <div class="admin-item">
             <div class="admin-image"></div>
@@ -55,6 +55,12 @@
             <div class="admin-image"></div>
             <h2 class="item-title">Liste des zones</h2>
             <a href="{{  path('admin.zones.show')}}" class="admin-button">More ...</a>
+        </div>
+
+        <div class="admin-item">
+            <div class="admin-image"></div>
+            <h2 class="item-title">Liste des Catastrophes</h2>
+            <a href="{{  path('admin.catastrophe.show')}}" class="admin-button">More...</a>
         </div>
 
     </section>

@@ -1,0 +1,67 @@
+
+
+{% extends '/pages/home.html.twig' %}
+    {% block title %}View Companies{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('show_company.css','css') }}" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url("{{ asset('show_company.jpg','show_company_images') }}");
+            background-size: cover;
+        }
+
+    </style>
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('name_filter.js','js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    {% block nav %}{{ parent() }}{% endblock %}
+    <section class="show_company">
+        <h1>Catastrophes</h1>
+        <div class="line"></div>
+        <div class="wrapper">
+            <form method="POST">
+                <input type="text" id="name-filter" placeholder="Name">
+            </form>
+
+            <a href="{{ path('admin.catastrophe.create') }}" class="filter-button">Add</a>
+            <table>
+                <thead>
+                <tr>
+
+                    <th>Catastrophes</th>
+                    <th>Actions</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for catastrophe in catastrophes %}
+
+                    <tr class="row">
+                        <td class="name">{{ catastrophe.name }}</td><!--Name value-->
+                        <td>
+                            <a href="{{ path('admin.catastrophe.edit',{'id': catastrophe.id }) }}">Editer</a>
+
+                                                        <form method="post" action="{{ path('admin.catastrophe.remove',{id: catastrophe.id}) }}"
+                                                              onsubmit="return confirm('Are you sure ?')">
+                                                            <input type="hidden" name="_method" value="DELETE">
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ catastrophe.id) }}">
+                                                            <button type="submit">Supprimer</button>
+                                                        </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+{% endblock %}

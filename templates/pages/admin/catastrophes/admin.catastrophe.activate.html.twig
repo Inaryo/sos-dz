@@ -1,0 +1,50 @@
+{% extends 'pages/home.html.twig' %}
+
+{% block title %} Profile{% endblock %}
+    {% block stylesheets %}
+        <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+
+        <link href="{{ asset('profile.css','css') }}" rel="stylesheet"/>
+
+    {% endblock %}
+{% block body %}
+    {% block nav %}
+        {{ parent() }}
+    {% endblock %}
+    <section class="profile-page">
+
+
+        <div class="inventory">
+            <h2>Equipement disponibles</h2>
+                {% for key,value in items %}
+                    <div class="inventory-item">
+                        <div class="item-description">
+                            <h3>{{ key }}</h3>
+                        </div>
+                        <div class="command-buttons">
+                            <div  class="number-item"> {{ value }} </div>
+                        </div>
+                    </div>
+                {% endfor %}
+        </div>
+
+        <form method="post" action="{{ path('admin.plan.activate',{id: catastrophe_id}) }}"
+              onsubmit="return confirm('Are you sure ?')">
+            <input type="hidden" name="_method" value="ACTIVATION_CONFIRMED">
+            <input type="hidden" name="_token" value="{{ csrf_token('activation_confirmed' ~ catastrophe_id) }}">
+            <button type="submit">Activer le Plan et Envoyer les Emails</button>
+        </form>
+
+
+
+    </section>
+
+{% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('profile.js','js') }}"></script>
+    {% endblock %}
+
+
+
+
