@@ -3,15 +3,17 @@
 {% block title %}Admin{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{asset('nav_bar.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('header.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('newsletter.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('footer.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('admin_choice.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('header.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('newsletter.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('footer.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('admin_choice.css','css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}
         {{ parent() }}
     {% endblock %}
@@ -19,20 +21,20 @@
 
     <section class="admin">
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("company.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Compte Entreprise</h2>
             <a href="{{ path("user.create.company") }}" class="admin-button">Add</a>
         </div>
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("donor.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Compte Donnateur</h2>
             <a href="{{ path("user.create.donator") }}" class="admin-button">Add</a>
         </div>
 
     </section>
 
-    {% block newsletter %}{{parent()}}{% endblock %}
-    {% block footer %}{{parent()}}{% endblock %}
+    {% block newsletter %}{{ parent() }}{% endblock %}
+    {% block footer %}{{ parent() }}{% endblock %}
 
 {% endblock %}
 

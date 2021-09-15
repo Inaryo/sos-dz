@@ -8,82 +8,86 @@
 
     {% endblock %}
 {% block body %}
-{% block nav %}
-    {{ parent() }}
-{% endblock %}
-<section class="profile-page">
-    <h1>Profile</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% block nav %}
+        {{ parent() }}
+    {% endblock %}
+    <section class="profile-page">
+        <h1>Profile</h1>
 
-    <div class="basic-informations">
-        <h2>Basic information</h2>
-        <div class="basic-informations-items">
-            <div class="left-items">
-                <div class="info-item">
-                    <p><img src="{{ asset('male.svg','profile_images') }}" alt="icon"> <span
-                                class="info">{{ app.user.email }}</span>
-                    </p>
-                    <div class="line"></div>
-                </div>
-                <div class="info-item">
-                    <p><img src="{{ asset('calendar.svg','profile_images') }}" alt="icon"> <span
-                                class="info">0{{ app.user.mobilePhone }}</span></p>
-                    <div class="line"></div>
-                </div>
-                <div class="info-item">
-                    <p><img src="{{ asset('male.svg','profile_images') }}" alt="icon"> <span
-                                class="info">{{ app.user.zone.name }}</span>
-                    </p>
-                    <div class="line"></div>
-                </div>
+        <div class="basic-informations">
+            <h2>Basic information</h2>
+            <div class="basic-informations-items">
+                <div class="left-items">
+                    <div class="info-item">
+                        <p><img src="{{ asset('male.svg','profile_images') }}" alt="icon"> <span
+                                    class="info">{{ app.user.email }}</span>
+                        </p>
+                        <div class="line"></div>
+                    </div>
+                    <div class="info-item">
+                        <p><img src="{{ asset('calendar.svg','profile_images') }}" alt="icon"> <span
+                                    class="info">0{{ app.user.mobilePhone }}</span></p>
+                        <div class="line"></div>
+                    </div>
+                    <div class="info-item">
+                        <p><img src="{{ asset('male.svg','profile_images') }}" alt="icon"> <span
+                                    class="info">{{ app.user.zone.name }}</span>
+                        </p>
+                        <div class="line"></div>
+                    </div>
 
-            </div>
-            <div class="right-items">
-                <div class="info-item">
-                    <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span class="info">
+                </div>
+                <div class="right-items">
+                    <div class="info-item">
+                        <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span class="info">
                             {{ app.user.username }}
                         </span>
-                    </p>
-                    <div class="line"></div>
-                </div>
-                <div class="info-item">
-                    <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span class="info">{{ app.user.category.name }}</span>
-                    </p>
-                    <div class="line"></div>
-                </div>
-                <div class="info-item">
-                    <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span class="info"></span>
-                    </p>
-                    <div class="line"></div>
-                </div>
+                        </p>
+                        <div class="line"></div>
+                    </div>
+                    <div class="info-item">
+                        <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span
+                                    class="info">{{ app.user.category.name }}</span>
+                        </p>
+                        <div class="line"></div>
+                    </div>
+                    <div class="info-item">
+                        <p><img src="{{ asset('work.svg','profile_images') }}" alt="icon"><span class="info"></span>
+                        </p>
+                        <div class="line"></div>
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="inventory">
-        <h2>inventory</h2>
-        <form method="post" class="inventory-items">
+        <div class="inventory">
+            <h2>inventory</h2>
+            <form method="post" class="inventory-items">
 
-            {% for key,value in items %}
-                <div class="inventory-item">
-                    <div class="item-description">
-                        <h3>{{ key }}</h3>
+                {% for key,value in items %}
+                    <div class="inventory-item">
+                        <div class="item-description">
+                            <h3>{{ key }}</h3>
 
+                        </div>
+                        <div class="command-buttons">
+                            <button type="button" class="plus-button">+</button>
+                            <input name="{{ key }}" class="number-item" value="{{ value }}">
+                            <button type="button" class="minus-button">-</button>
+                        </div>
                     </div>
-                    <div class="command-buttons">
-                        <button type="button" class="plus-button">+</button>
-                          <input name="{{ key }}" class="number-item" value="{{ value }}">
-                        <button type="button" class="minus-button">-</button>
-                    </div>
+                {% endfor %}
+                <div class="add-save-button">
+                    <button class="save-item">Save</button>
                 </div>
-            {% endfor %}
-            <div class="add-save-button">
-                <button class="save-item">Save</button>
-            </div>
-        </form>
+            </form>
 
-    </div>
-</section>
+        </div>
+    </section>
 
 {% endblock %}
 

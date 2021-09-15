@@ -3,43 +3,35 @@
 {% block title %}Admin{% endblock %}
 
 {% block stylesheets %}
-    <link href="{{asset('nav_bar.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('header.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('newsletter.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('footer.css','css') }}" rel="stylesheet"/>
-    <link href="{{asset('admin_choice.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('header.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('newsletter.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('footer.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('admin_choice.css','css') }}" rel="stylesheet"/>
 {% endblock %}
 
 {% block body %}
-    {% block header %}
-        {% block header_background %}{% endblock %}
-        {% block nav %}{{parent()}}{% endblock %}
-        {% block slogan %}{% endblock %}
-        {% block texts %}{% endblock %}
-        {% block image_header %}
-{#            <img src="{{ asset('header_admin.svg','admin_page_images')}}" alt="Image pour le header">#}
-        {% endblock %}
-    {% endblock %}
-    <link href="{{asset('nav_bar.css','css') }}" rel="stylesheet"/>
-    </header>
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+    {% block nav %}{{ parent() }}{% endblock %}
     <section class="admin">
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("activate_plan.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Liste des Plans d'urgence</h2>
             <a href="{{ path('admin.plans.show') }}" class="admin-button">List</a>
         </div>
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("list.jpg",'admin_page_images') }}" alt="image">
 
             <h2 class="item-title">List des items</h2>
 
-            <a href="{{  path('admin.items.show')}}" class="admin-button">More...</a>
+            <a href="{{ path('admin.items.show') }}" class="admin-button">More...</a>
         </div>
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("company.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Liste des Entreprises</h2>
-            <a href="{{  path('admin.companies.show')}}" class="admin-button">More...</a>
+            <a href="{{ path('admin.companies.show') }}" class="admin-button">More...</a>
         </div>
 
     </section>
@@ -47,26 +39,26 @@
 
     <section class="admin">
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("categories.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Liste des Catégories</h2>
-            <a href="{{  path('admin.categories.show')}}" class="admin-button">More ...</a>
+            <a href="{{ path('admin.categories.show') }}" class="admin-button">More ...</a>
         </div>
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <img class="admin-image" src="{{ asset("zones.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Liste des zones</h2>
-            <a href="{{  path('admin.zones.show')}}" class="admin-button">More ...</a>
+            <a href="{{ path('admin.zones.show') }}" class="admin-button">More ...</a>
         </div>
 
         <div class="admin-item">
-            <div class="admin-image"></div>
+            <<img class="admin-image" src="{{ asset("catastrophes.jpg",'admin_page_images') }}" alt="image">
             <h2 class="item-title">Liste des Catastrophes</h2>
-            <a href="{{  path('admin.catastrophe.show')}}" class="admin-button">More...</a>
+            <a href="{{ path('admin.catastrophe.show') }}" class="admin-button">More...</a>
         </div>
 
     </section>
 
     {% block newsletter %}{% endblock %}
-    {% block footer %}{{parent()}}{% endblock %}
+    {% block footer %}{{ parent() }}{% endblock %}
 
 {% endblock %}
 

@@ -33,7 +33,6 @@ admin.home:
 
 
 
-
 admin.zone.edit:
     path: /admin/zone/edit/{id}
     controller: App\Controller\AdminController::editZone
@@ -55,9 +54,6 @@ admin.zone.remove:
     methods: DELETE
     requirements:
         id : '\d+'
-
-
-
 
 admin.category.create:
     path: /admin/category/create

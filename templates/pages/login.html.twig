@@ -5,7 +5,7 @@
         <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
         <link href="{{ asset('login_page.css','css') }}" rel="stylesheet"/>
 
-         <style>
+        <style>
             body {
                 background-image: url({{ asset('login_background.jpg','login_page_images') }});
                 background-size: cover;
@@ -20,14 +20,16 @@
 
 
 	{% block body %}
-
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
         {% block nav %}
             {{ parent() }}
         {% endblock %}
 
-          <section class="login_page">
+        <section class="login_page">
 
-              <img src="{{ asset('contact_icon.svg','login_page_images') }}" alt="icone de contact"
+            <img src="{{ asset('contact_icon.svg','login_page_images') }}" alt="icone de contact"
                  class="contact_icon"/>
 
             <form method="post">
@@ -55,4 +57,4 @@
             <img src="{{ asset('line.svg','login_page_images') }}" alt="ligne" class="line"/>
             <p class=>You don't have account ? <a href="{{ path('user.create.choice') }}">Sign Up now</a></p>
         </section>
-{% endblock %}
+    {% endblock %}

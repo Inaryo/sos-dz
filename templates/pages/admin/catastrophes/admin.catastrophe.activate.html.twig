@@ -8,6 +8,9 @@
 
     {% endblock %}
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}
         {{ parent() }}
     {% endblock %}
@@ -16,16 +19,16 @@
 
         <div class="inventory">
             <h2>Equipement disponibles</h2>
-                {% for key,value in items %}
-                    <div class="inventory-item">
-                        <div class="item-description">
-                            <h3>{{ key }}</h3>
-                        </div>
-                        <div class="command-buttons">
-                            <div  class="number-item"> {{ value }} </div>
-                        </div>
+            {% for key,value in items %}
+                <div class="inventory-item">
+                    <div class="item-description">
+                        <h3>{{ key }}</h3>
                     </div>
-                {% endfor %}
+                    <div class="command-buttons">
+                        <div class="number-item"> {{ value }} </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
 
         <form method="post" action="{{ path('admin.plan.activate',{id: catastrophe_id}) }}"
@@ -34,7 +37,6 @@
             <input type="hidden" name="_token" value="{{ csrf_token('activation_confirmed' ~ catastrophe_id) }}">
             <button type="submit">Activer le Plan et Envoyer les Emails</button>
         </form>
-
 
 
     </section>

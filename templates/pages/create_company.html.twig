@@ -1,5 +1,5 @@
-
 {% extends 'pages/home.html.twig' %}
+
 {% block title %}Add Company{% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
@@ -13,7 +13,9 @@
 {% endblock %}
 
 {% block body %}
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {{ form_start(form) }}
     <button type="submit">go</button>
     {{ form_end(form) }}

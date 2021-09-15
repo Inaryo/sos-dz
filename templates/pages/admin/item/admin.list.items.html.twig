@@ -1,5 +1,3 @@
-
-
 {% extends '/pages/home.html.twig' %}
     {% block title %}View Companies{% endblock %}
 {% block stylesheets %}
@@ -19,6 +17,9 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}{{ parent() }}{% endblock %}
     <section class="show_company">
         <h1>Items Of Inventory</h1>
@@ -27,43 +28,40 @@
             <form method="POST">
                 <input type="text" id="name-filter" placeholder="Name">
             </form>
-            <a  class="filter-button" href="{{ path('admin.item.create') }}">Add</a>
-
-
-
-            <table>
-                <thead>
-                <tr>
-
-                    <th>Zone</th>
-                    <th>Actions</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-                {% for item in items %}
-
-                    <tr class="row">
-                        <td class="name">{{ item.name }}</td><!--Name value-->
-                        <td>
-                            <a href="{{ path('admin.item.edit',{'id': item.id }) }}">Editer</a>
-
-                            <form method="post" action="{{ path('admin.item.remove',{id: item.id}) }}"
-                                  onsubmit="return confirm('Are you sure ?')">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ item.id) }}">
-                                <button type="submit">Supprimer</button>
-                            </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-
-
-                </tbody>
-            </table>
-
+            <a class="filter-button" href="{{ path('admin.item.create') }}">Add</a>
         </div>
+
+        <table>
+            <thead>
+            <tr>
+
+                <th>Zone</th>
+                <th>Actions</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for item in items %}
+
+                <tr class="row">
+                    <td class="name">{{ item.name }}</td><!--Name value-->
+                    <td>
+                        <a href="{{ path('admin.item.edit',{'id': item.id }) }}">Editer</a>
+
+                        <form method="post" action="{{ path('admin.item.remove',{id: item.id}) }}"
+                              onsubmit="return confirm('Are you sure ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ item.id) }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
 
     </section>
 {% endblock %}

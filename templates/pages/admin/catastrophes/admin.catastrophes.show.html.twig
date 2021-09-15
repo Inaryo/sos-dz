@@ -1,5 +1,3 @@
-
-
 {% extends '/pages/home.html.twig' %}
     {% block title %}View Companies{% endblock %}
 {% block stylesheets %}
@@ -19,6 +17,9 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}{{ parent() }}{% endblock %}
     <section class="show_company">
         <h1>Catastrophes</h1>
@@ -29,39 +30,38 @@
             </form>
 
             <a href="{{ path('admin.catastrophe.create') }}" class="filter-button">Add</a>
-            <table>
-                <thead>
-                <tr>
-
-                    <th>Catastrophes</th>
-                    <th>Actions</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-                {% for catastrophe in catastrophes %}
-
-                    <tr class="row">
-                        <td class="name">{{ catastrophe.name }}</td><!--Name value-->
-                        <td>
-                            <a href="{{ path('admin.catastrophe.edit',{'id': catastrophe.id }) }}">Editer</a>
-
-                                                        <form method="post" action="{{ path('admin.catastrophe.remove',{id: catastrophe.id}) }}"
-                                                              onsubmit="return confirm('Are you sure ?')">
-                                                            <input type="hidden" name="_method" value="DELETE">
-                                                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ catastrophe.id) }}">
-                                                            <button type="submit">Supprimer</button>
-                                                        </form>
-                        </td>
-                    </tr>
-                {% endfor %}
-
-
-                </tbody>
-            </table>
-
         </div>
+        <table>
+            <thead>
+            <tr>
+
+                <th>Catastrophes</th>
+                <th>Actions</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for catastrophe in catastrophes %}
+
+                <tr class="row">
+                    <td class="name">{{ catastrophe.name }}</td><!--Name value-->
+                    <td>
+                        <a href="{{ path('admin.catastrophe.edit',{'id': catastrophe.id }) }}">Editer</a>
+
+                        <form method="post" action="{{ path('admin.catastrophe.remove',{id: catastrophe.id}) }}"
+                              onsubmit="return confirm('Are you sure ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ catastrophe.id) }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
 
     </section>
 {% endblock %}

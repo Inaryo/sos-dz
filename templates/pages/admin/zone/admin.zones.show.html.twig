@@ -1,6 +1,5 @@
-
-
 {% extends '/pages/home.html.twig' %}
+
     {% block title %}View Companies{% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
@@ -19,6 +18,9 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}{{ parent() }}{% endblock %}
     <section class="show_company">
         <h1>Zones</h1>
@@ -27,43 +29,40 @@
             <form method="POST">
                 <input type="text" id="name-filter" placeholder="Name">
             </form>
-            <a  class="filter-button" href="{{ path('admin.zone.create') }}">Add</a>
-
-
-
-            <table>
-                <thead>
-                <tr>
-
-                    <th>Zone</th>
-                    <th>Actions</th>
-
-                </tr>
-                </thead>
-
-                <tbody>
-                {% for zone in zones %}
-
-                    <tr class="row">
-                        <td class="name">{{ zone.name }}</td><!--Name value-->
-                        <td>
-                            <a href="{{ path('admin.zone.edit',{'id': zone.id }) }}">Editer</a>
-
-{#                            <form method="post" action="{{ path('admin.zone.remove',{id: zone.id}) }}"#}
-{#                                  onsubmit="return confirm('Are you sure ?')">#}
-{#                                <input type="hidden" name="_method" value="DELETE">#}
-{#                                <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ zone.id) }}">#}
-{#                                <button type="submit">Supprimer</button>#}
-{#                            </form>#}
-                        </td>
-                    </tr>
-                {% endfor %}
-
-
-                </tbody>
-            </table>
-
+            <a class="filter-button" href="{{ path('admin.zone.create') }}">Add</a>
         </div>
+        <table>
+            <thead>
+            <tr>
+
+                <th>Zone</th>
+                <th>Actions</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for zone in zones %}
+
+                <tr class="row">
+                    <td class="name">{{ zone.name }}</td><!--Name value-->
+                    <td>
+                        <a href="{{ path('admin.zone.edit',{'id': zone.id }) }}">Editer</a>
+
+                        {# <form method="post" action="{{ path('admin.zone.remove',{id: zone.id}) }}" #}
+                        {# onsubmit="return confirm('Are you sure ?')"> #}
+                        {# <input type="hidden" name="_method" value="DELETE"> #}
+                        {# <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ zone.id) }}"> #}
+                        {# <button type="submit">Supprimer</button> #}
+                        {# </form> #}
+                    </td>
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+
 
     </section>
 {% endblock %}

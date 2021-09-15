@@ -13,7 +13,9 @@
 
 {% block body %}
 
-
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     <section class="adding_business">
         {% block  nav %}{{ parent() }}{% endblock %}
 
@@ -24,7 +26,7 @@
                 <span class="text-label">Name</span>
                 <input name="item_name" type="text"/>
             </label>
-            <button type="submit"  class="add-button">Add</button>
+            <button type="submit" class="add-button">Add</button>
         </form>
 
     </section>

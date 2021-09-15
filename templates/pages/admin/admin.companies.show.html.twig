@@ -1,4 +1,5 @@
 {% extends '/pages/home.html.twig' %}
+
     {% block title %}View Companies{% endblock %}
 {% block stylesheets %}
     <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
@@ -17,6 +18,9 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
     {% block nav %}{{ parent() }}{% endblock %}
     <section class="show_company">
         <h1>Companies</h1>
@@ -38,57 +42,53 @@
                 <input type="text" id="name-filter" placeholder="Name">
 
             </form>
-
-            <table>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Zone</th>
-                    <th>Category</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                 {% for company in companies %}
-                 <tr class="row">
-                 <td class="name">{{ company.username }}</td><!--Name value-->
-                 <td>{{ company.zone.name }}</td><!--Zone value-->
-                 <td>{{ company.category.name }}</td><!--Category value-->
-                 <td>{{ company.email }}</td><!--Email value-->
-                 <td>{{ company.mobilephone }}</td><!--Phone number value-->
-
-
-                 <td>
-                 {% if company.activated %}
-                 <a href="{{ path('admin.company.edit',{'id': company.id }) }}">Editer</a>
-                 {% else %}
-                 <form method="post" action="{{ path('admin.company.activate',{'id': company.id }) }}"
-                 onsubmit="return confirm('Are you sure to activate this account ?')">
-                 <input type="hidden" name="_method" value="ACTIVATE">
-                 <input type="hidden" name="_token"
-                 value="{{ csrf_token('activate' ~ company.id) }}">
-                 <button type="submit">Activate</button>
-                 </form>
-
-                 {% endif %}
-                 <form method="post" action="{{ path('admin.company.remove',{id: company.id}) }}"
-                 onsubmit="return confirm('Are you sure ?')">
-                 <input type="hidden" name="_method" value="DELETE">
-                 <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ company.id) }}">
-                 <button type="submit">Supprimer</button>
-                 </form>
-                 </td>
-                 </tr>
-                 {% endfor %}
-
-
-                </tbody>
-            </table>
-
         </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Zone</th>
+                <th>Category</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {% for company in companies %}
+                <tr class="row">
+                    <td class="name">{{ company.username }}</td><!--Name value-->
+                    <td>{{ company.zone.name }}</td><!--Zone value-->
+                    <td>{{ company.category.name }}</td><!--Category value-->
+                    <td>{{ company.email }}</td><!--Email value-->
+                    <td>{{ company.mobilephone }}</td><!--Phone number value-->
+
+
+                    <td>
+                        {% if company.activated %}
+                            <a href="{{ path('admin.company.edit',{'id': company.id }) }}">Editer</a>
+                        {% else %}
+                            <form method="post" action="{{ path('admin.company.activate',{'id': company.id }) }}"
+                                  onsubmit="return confirm('Are you sure to activate this account ?')">
+                                <input type="hidden" name="_method" value="ACTIVATE">
+                                <input type="hidden" name="_token"
+                                       value="{{ csrf_token('activate' ~ company.id) }}">
+                                <button type="submit">Activate</button>
+                            </form>
+
+                        {% endif %}
+                        <form method="post" action="{{ path('admin.company.remove',{id: company.id}) }}"
+                              onsubmit="return confirm('Are you sure ?')">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ company.id) }}">
+                            <button type="submit">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
     </section>
 {% endblock %}

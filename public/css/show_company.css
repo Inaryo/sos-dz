@@ -26,8 +26,7 @@
 
 .wrapper {
     display: flex;
-    flex-direction: column;
-    margin-bottom: 100px;
+
     width: 800px;
     height: max-content;
 }
@@ -55,24 +54,6 @@ form {
     cursor: pointer;
 }
 
-/*
-.add {
-    border: none;
-    color: white;
-    background-color: #085830;
-    padding: 5px 25px;
-    font-size: 22px;
-    font-weight: 700;
-    border-radius: 5px;
-
-}
-
-.add:hover {
-    background-color: rgba(8, 88, 48, 0.82);
-    cursor: pointer;
-}
-*/
-
 
 select {
     background-color: #085830;
@@ -96,10 +77,21 @@ select option {
 table {
     background-color: rgba(255, 255, 255, 0.829);
     margin-top: 25px;
-    width: 100%;
+    width: 80%;
     text-align: center;
-    padding: 10px 25px;
+    padding: 25px 25px;
+    margin-bottom: 100px;
 
+}
+
+tr {
+    height: 100px;
+    outline: 2px #06CC69 solid;
+}
+
+td, th {
+    outline: 2px #06CC69 solid;
+    width: 17%;
 }
 
 #name-filter {
@@ -138,7 +130,7 @@ table {
     box-shadow: inset 7px 10px 12px 0 #F0F0F0;
 }
 
-.vanish{
+.vanish {
     display: none;
     height: 0;
 }
