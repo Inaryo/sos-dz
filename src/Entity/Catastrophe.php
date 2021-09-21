@@ -34,6 +34,16 @@ class Catastrophe
      */
     private $plans;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $logo;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
     public function __construct()
     {
         $this->besoins = new ArrayCollection();
@@ -107,6 +117,30 @@ class Catastrophe
                 $plan->setCatastrophe(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

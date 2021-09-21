@@ -7,6 +7,7 @@ use App\Entity\Catalog;
 use App\Entity\Contact;
 use App\Form\CatalogType;
 use App\Form\ContactType;
+use App\Repository\CatastropheRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Asset\Package;
 use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
@@ -32,11 +33,16 @@ class HomeController extends  AbstractController
      * @var Security
      */
     private $security;
+    /**
+     * @var CatastropheRepository
+     */
+    private $catastropheRepository;
 
-    public function __construct(Environment $render,Security $security)
+    public function __construct(CatastropheRepository $catastropheRepository,Environment $render,Security $security)
     {
             $this->render = $render;
         $this->security = $security;
+        $this->catastropheRepository = $catastropheRepository;
     }
 
 
@@ -45,7 +51,7 @@ class HomeController extends  AbstractController
         $contact = new Contact();
         $form_contact = $this->createForm(ContactType::class,$contact);
 
-
+        $catastrophes    = $this->catastropheRepository->findAll();
 
         if ($form_contact->isSubmitted() && $form_contact->isValid()) {
 
@@ -77,7 +83,8 @@ class HomeController extends  AbstractController
 
 
         return $this->render("pages/home.html.twig",[
-            "form_contact" => $form_contact->createView(),
+            "catastrophes" => $catastrophes,
+            "form_contact" => $form_contact->createView()
         ]);
     }
 }

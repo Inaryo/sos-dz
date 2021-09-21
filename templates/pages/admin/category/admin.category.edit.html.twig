@@ -1,11 +1,37 @@
-{% extends "base.html.twig" %}
+
+
+{% extends 'pages/home.html.twig' %}
+{% block title %}Edit Company{% endblock %}
+{% block stylesheets %}
+    <link href="{{ asset('nav_bar.css','css') }}" rel="stylesheet"/>
+    <link href="{{ asset('adding_company.css','css') }}" rel="stylesheet"/>
+    <style>
+        body {
+            background-image: url("{{asset('background_company.png','adding_company_images')}}");
+            background-size: cover;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
+
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
-    {{ form_start(form) }}
 
-    <button type="submit">Editer</button>
-    {{ form_end(form) }}
+    <section class="adding_business">
+        {% block  nav %}{{ parent() }}{% endblock %}
+
+        <h1>Editing the Category</h1>
+        <div class="line"></div>
+        <form method="post" class="business-form">
+            <label>
+                <span class="text-label">Name</span>
+                <input value="{{ name }}" name="category_name" type="text"/>
+            </label>
+            <button type="submit" class="add-button">Edit</button>
+        </form>
+
+    </section>
+
 {% endblock %}

@@ -112,19 +112,19 @@ class AdminController extends  AbstractController
 
     public function editItem(Item $item,Request $request) {
 
-        $form = $this->createForm(ItemType::class,$item);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->isMethod("post") ) {
             $slug = new Slugify();
-            $item->setName($slug->slugify($item->getName()));
+            $item->setName($slug->slugify($request->request->get("item_name")));
             $this->em->flush();
 
             $this->addFlash('success',"Item edite avec succès");
-            return $this->redirectToRoute('admin.home');
+            return $this->redirectToRoute('admin.items.show');
         }
 
-        return $this->render("pages/admin/item/admin.edit.item.html.twig");
+
+        return $this->render("pages/admin/item/admin.edit.item.html.twig",[
+            "name" => $item->getName()
+        ]);
 
     }
 
@@ -185,7 +185,10 @@ class AdminController extends  AbstractController
     }
 
     public function editCompany(User $company,Request $request) {
-
+        //TODO EDIT Form
+        //TODO EDIT Extincteur
+        //TODO EDIT Catastrophe
+        //TODO Removes
         $logoName = $company->getLogoName();
 
         $form = $this->createForm(UserType::class,$company,["validation_groups" => "edit"]);
@@ -239,17 +242,19 @@ class AdminController extends  AbstractController
 
     public function editZone(Zone $zone,Request $request) {
 
-        $form = $this->createForm(ZoneType::class,$zone);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->isMethod("post")) {
+            $name = $request->request->get("zone_name");
+            $zone->setName($name);
             $this->em->flush();
             $this->addFlash('success',"Zone/Wilaya edité avec succès");
 
-            return $this->redirectToRoute('admin.home');
+            return $this->redirectToRoute('admin.zones.show');
         }
 
-        return $this->render("pages/admin/zone/admin.zone.edit.html.twig");
+
+        return $this->render("pages/admin/zone/admin.zone.edit.html.twig",[
+            "name" => $zone->getName()
+        ]);
     }
 
     public function showZones(Request $request,PaginatorInterface $paginator) {
@@ -299,17 +304,21 @@ class AdminController extends  AbstractController
 
     public function editCategory (Category $category,Request $request) {
 
-        $form = $this->createForm(ZoneType::class,$category);
-        $form->handleRequest($request);
+        if ($request->isMethod("post")){
+            $name = $request->request->get("category_name");
+            $category->setName($name);
 
-        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
             $this->addFlash('success',"Catégorie edité avec succès");
 
-            return $this->redirectToRoute('admin.home');
+            return $this->redirectToRoute('admin.categories.show');
         }
 
-        return $this->render("pages/admin/category/admin.category.edit.html.twig");
+
+
+        return $this->render("pages/admin/category/admin.category.edit.html.twig",[
+            "name" => $category->getName()
+        ]);
     }
 
     public function addCategory(Request $request) {
@@ -340,6 +349,34 @@ class AdminController extends  AbstractController
         return $this->render("pages/admin/category/admin.categories.show.html.twig",[
             'categories' => $categories
         ]);
+    }
+
+
+    private function moveUploadedImagesCatastrophe(Array $array,Catastrophe $catastrophe): array
+    {
+        $slugger = new Slugify();
+        $return_array = [];
+
+        foreach ($array as $imageData) {
+
+            $safeFilename = $slugger->slugify($catastrophe->getName());
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageData->guessExtension();
+
+
+            try {
+                $imageData->move(
+                    $this->getParameter('catastrophes_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                throw  new ErrorException("Error Uploading file");
+            }
+
+            array_push($return_array,$newFilename);
+            //   }
+        }
+        return $return_array;
+
     }
 
     private function moveUploadedImages(Array $array,User $user): array
@@ -480,6 +517,15 @@ class AdminController extends  AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $logo = $form->get('logo')->getData();
+            if ($logo != null) {
+                $logo = $this->moveUploadedImagesCatastrophe([$logo],$catastrophe);
+                $catastrophe->setLogo($logo[0]) ;
+            } else {
+                $catastrophe->setLogo('default.jpg');
+            }
+
             $this->em->persist($catastrophe);
             $this->em->flush();
             $this->addFlash('success',"Catastrophe crée avec succès");
@@ -547,7 +593,7 @@ class AdminController extends  AbstractController
             return $this->render("pages/admin/plans/admin.plans.show.html.twig",[
                 "plans" => $plans
             ]);
-        }
+    }
 
     public function desactivatePlan(Plan $plan,Request $request)
     {
@@ -561,6 +607,9 @@ class AdminController extends  AbstractController
 
         return $this->redirectToRoute('admin.plans.show');
     }
+
+
+
 
 
 

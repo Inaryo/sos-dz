@@ -35,7 +35,8 @@
             <thead>
             <tr>
 
-                <th>Catastrophes</th>
+                <th>Catastrophe</th>
+                <th>Description</th>
                 <th>Actions</th>
 
             </tr>
@@ -45,7 +46,8 @@
             {% for catastrophe in catastrophes %}
 
                 <tr class="row">
-                    <td class="name">{{ catastrophe.name }}</td><!--Name value-->
+                    <td class="name">{{ catastrophe.name }}</td>
+                    <td class="name">{{ catastrophe.description }}</td>
                     <td>
                         <a href="{{ path('admin.catastrophe.edit',{'id': catastrophe.id }) }}">Editer</a>
 
