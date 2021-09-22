@@ -188,7 +188,8 @@ class AdminController extends  AbstractController
         //TODO EDIT Form
         //TODO EDIT Extincteur
         //TODO EDIT Catastrophe
-        //TODO Removes
+        //TODO Removes*
+
         $logoName = $company->getLogoName();
 
         $form = $this->createForm(UserType::class,$company,["validation_groups" => "edit"]);
@@ -542,8 +543,11 @@ class AdminController extends  AbstractController
     public function showCatastrophes()
     {
             $catastrophes = $this->catastrophesRepository->findAll();
+
+
             return $this->render("pages/admin/catastrophes/admin.catastrophes.show.html.twig",[
-                "catastrophes" => $catastrophes
+                "catastrophes" => $catastrophes,
+
             ]);
     }
 
@@ -571,7 +575,16 @@ class AdminController extends  AbstractController
             'multiple' => true]);
 
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $logo = $form->get('logo')->getData();
+            if ($logo != null) {
+                $logo = $this->moveUploadedImagesCatastrophe([$logo],$catastrophe);
+                $catastrophe->setLogo($logo[0]) ;
+            } else {
+                $catastrophe->setLogo('default.jpg');
+            }
+
             $this->em->flush();
             $this->addFlash("success","Catastrophe edité avec succès");
             return $this->redirectToRoute("admin.catastrophe.show");
@@ -589,9 +602,24 @@ class AdminController extends  AbstractController
     public function showPlans()
     {
             $plans = $this->planRepository->findAllByOrder();
+            $besoins = [];
+
+            forEach ($plans as $plan) {
+                $array = $plan->getBesoins();
+                $plan_besoins = [];
+                foreach ($array as $key => $value) {
+                    $name = ($this->itemsRepository->find($key))->getName();
+                    $plan_besoins[$name] = $value;
+                }
+                array_push($besoins,$plan_besoins);
+
+
+            }
+
 
             return $this->render("pages/admin/plans/admin.plans.show.html.twig",[
-                "plans" => $plans
+                "plans" => $plans,
+                "besoins" => $besoins
             ]);
     }
 

@@ -49,12 +49,12 @@
                     <td>
                         <a href="{{ path('admin.item.edit',{'id': item.id }) }}">Editer</a>
 
-                        <form method="post" action="{{ path('admin.item.remove',{id: item.id}) }}"
-                              onsubmit="return confirm('Are you sure ?')">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ item.id) }}">
-                            <button type="submit">Supprimer</button>
-                        </form>
+{#                        <form method="post" action="{{ path('admin.item.remove',{id: item.id}) }}"#}
+{#                              onsubmit="return confirm('Are you sure ?')">#}
+{#                            <input type="hidden" name="_method" value="DELETE">#}
+{#                            <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ item.id) }}">#}
+{#                            <button type="submit">Supprimer</button>#}
+{#                        </form>#}
                     </td>
                 </tr>
             {% endfor %}

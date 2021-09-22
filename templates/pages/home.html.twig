@@ -88,7 +88,9 @@
                 <div class="slide {% if index == 1 %} s1 {% else%} vanish {% endif%} ">
                     <img src=" {{ asset('uploads/catastrophes/' ~ catastrophe.logo) }}" class="images" alt="image">
 
-                    <p>{{ catastrophe.description }}
+                    <p>
+                        <i>{{ catastrophe.name }}</i>  <br><br>
+                        {{ catastrophe.description }}
                     </p>
 
                 </div>
@@ -144,16 +146,6 @@
             <div class="info-div">
                 <div class="logo">
                     <a href='{{ path('home') }}' alt="Logo Path">LOGO HERE</a>
-                </div>
-                <div class="informations">
-                    <p>informations</p>
-                    <p></p>
-                    <p>informations</p>
-                    <p></p>
-                    <p>informations</p>
-                    <p></p>
-                    <p>informations</p>
-                    <p></p>
                 </div>
             </div>
             <div class="social-media">

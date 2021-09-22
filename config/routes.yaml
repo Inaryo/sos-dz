@@ -51,7 +51,6 @@ admin.zone.create:
 admin.zone.remove:
     path: /admin/zone/remove/{id}
     controller: App\Controller\Admin\AdminController::removeZone
-    methods: DELETE
     requirements:
         id : '\d+'
 
@@ -73,7 +72,6 @@ admin.category.edit:
 admin.category.remove:
     path: /admin/category/remove/{id}
     controller: App\Controller\Admin\AdminController::removeCategory
-    methods: DELETE
     requirements:
         id : '\d+'
 
@@ -96,14 +94,12 @@ admin.item.edit:
 admin.item.remove:
     path: /admin/item/remove/{id}
     controller: App\Controller\Admin\AdminController::removeItem
-    methods: DELETE
     requirements:
         id : '\d+'
 
 admin.company.remove:
     path: /admin/company/remove/{id}
     controller: App\Controller\Admin\AdminController::removeCompany
-    methods: DELETE
     requirements:
         id : '\d+'
 
@@ -146,7 +142,6 @@ admin.catastrophe.edit:
 admin.catastrophe.remove:
     path: /admin/catastrophe/remove/{id}
     controller: App\Controller\AdminController::removeCatastrophe
-    methods: DELETE
     requirements:
         id: '\d+'
 

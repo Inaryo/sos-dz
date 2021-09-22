@@ -20,7 +20,7 @@
 {% block body %}
     {% block nav %}{{ parent() }}{% endblock %}
     <section class="show_company">
-        <h1>Companies</h1>
+        <h1>Plans</h1>
         <div class="line"></div>
         <div class="wrapper">
             <form method="POST">
@@ -37,18 +37,28 @@
                 <th>Zone</th>
                 <th>Active</th>
                 <th>Date</th>
+                <th>Besoins</th>
                 <th>Actions</th>
             </tr>
             </thead>
 
             <tbody>
+            {% set index= -1 %}
             {% for plan in plans %}
+
+                {% set index= index +1 %}
                 <tr class="row">
                     <td class="name">{{ plan.id }}</td><!--Name value-->
                     <td>{{ plan.catastrophe.name }}</td><!--Zone value-->
                     <td>{{ plan.zone.name }}</td><!--Zone value-->
                     <td> {% if plan.activate %} Active {% else  %} Terminé {% endif %}</td>
                     <td>{{ plan.date|date("m/d/Y") }}</td><!--Category value-->
+                    <td><ul>
+                        {% for key,value in besoins[index] %}
+                            <li> {{ value }}-{{ key }}</li>
+                        {% endfor %}
+                        </ul>
+                    </td><!--Category value-->
                     <td>
                         {% if plan.activate %}
                             <form method="post" action="{{ path('admin.plan.deactivate',{'id': plan.id }) }}"
