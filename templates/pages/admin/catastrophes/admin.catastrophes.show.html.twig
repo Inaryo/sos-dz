@@ -37,6 +37,7 @@
 
                 <th>Catastrophe</th>
                 <th>Description</th>
+                <th>Besoins</th>
                 <th>Actions</th>
 
             </tr>
@@ -48,6 +49,11 @@
                 <tr class="row">
                     <td class="name">{{ catastrophe.name }}</td>
                     <td class="name">{{ catastrophe.description }}</td>
+                    <td class="name"><ul>
+                                {% for besoin in catastrophe.besoins %}
+                                   <li>{{ besoin.name }}</li>
+                                {% endfor %}
+                        </ul></td>
                     <td>
                         <a href="{{ path('admin.catastrophe.edit',{'id': catastrophe.id }) }}">Editer</a>
 
