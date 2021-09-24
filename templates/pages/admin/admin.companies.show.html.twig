@@ -62,27 +62,27 @@
                     <td>{{ company.zone.name }}</td><!--Zone value-->
                     <td>{{ company.category.name }}</td><!--Category value-->
                     <td>{{ company.email }}</td><!--Email value-->
-                    <td>{{ company.mobilephone }}</td><!--Phone number value-->
+                    <td>0{{ company.mobilephone }}</td><!--Phone number value-->
 
 
                     <td>
                         {% if company.activated %}
-                            <a href="{{ path('admin.company.edit',{'id': company.id }) }}">Editer</a>
+                            <a style="display:inline" class="filter-button" href="{{ path('admin.company.edit',{'id': company.id }) }}">Editer</a>
                         {% else %}
-                            <form method="post" action="{{ path('admin.company.activate',{'id': company.id }) }}"
+                            <form style="display:inline" method="post" action="{{ path('admin.company.activate',{'id': company.id }) }}"
                                   onsubmit="return confirm('Are you sure to activate this account ?')">
                                 <input type="hidden" name="_method" value="ACTIVATE">
                                 <input type="hidden" name="_token"
                                        value="{{ csrf_token('activate' ~ company.id) }}">
-                                <button type="submit">Activate</button>
+                                <button class="filter-button" type="submit">Activate</button>
                             </form>
 
                         {% endif %}
-                        <form method="post" action="{{ path('admin.company.remove',{id: company.id}) }}"
+                        <form style="display:inline" method="post" action="{{ path('admin.company.remove',{id: company.id}) }}"
                               onsubmit="return confirm('Are you sure ?')">
                             <input type="hidden" name="_method" value="DELETE">
                             <input type="hidden" name="_token" value="{{ csrf_token('remove' ~ company.id) }}">
-                            <button type="submit">Supprimer</button>
+                            <button class="filter-button" type="submit">Supprimer</button>
                         </form>
                     </td>
                 </tr>

@@ -61,12 +61,13 @@
                     </td><!--Category value-->
                     <td>
                         {% if plan.activate %}
-                            <form method="post" action="{{ path('admin.plan.deactivate',{'id': plan.id }) }}"
+                            <form style="display:inline" method="post" action="{{ path('admin.plan.deactivate',{'id': plan.id }) }}"
                                   onsubmit="return confirm('Are you sure to desactivate this Emergency Plan and Send Emails To Compagnies ?')">
                                 <input type="hidden" name="_method" value="DESACTIVATE">
                                 <input type="hidden" name="_token"
                                        value="{{ csrf_token('desactivate' ~ plan.id) }}">
-                                <button type="submit">Desactivate</button>
+
+                                <button class="filter-button" type="submit">Desactivate</button>
                             </form>
                         {% endif %}
                     </td>

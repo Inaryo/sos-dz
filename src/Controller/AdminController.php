@@ -436,6 +436,7 @@ class AdminController extends  AbstractController
                     $item = $this->itemsRepository->find($id);
                     $return_array[$item->getName()] = $val;
                 }
+                dump($return_array);
 
 
                 return  $this->render("pages/admin/catastrophes/admin.catastrophe.activate.html.twig",[
@@ -477,14 +478,15 @@ class AdminController extends  AbstractController
 
         $zone = $this->zonesRepository->find($this->getUser()->getZone());
         $companies = $this->userRepository->findCompaniesByZone($zone);
-        $besoinsArray = $besoinsArray->toArray();
 
 
-        for ($i = 0; $i < count($besoinsArray) ;$i = $i +1) {
+
+        for ($i = 0; $i < count($besoinsArray) ;$i += 1) {
             $count = 0;
-            $item = $besoinsArray[$i];
+            $item = $besoinsArray->get($i);
 
-            for ($j = 0; $j < count($companies); $j++) {
+            for ($j = 0; $j < count($companies); $j += 1) {
+
                 $company = $companies[$j];
                 $inventory = $company->getInventory();
 
@@ -534,7 +536,8 @@ class AdminController extends  AbstractController
         }
 
         return $this->render("pages/admin/catastrophes/admin.catastrophe.create.html.twig",[
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "besoins" => $this->itemsRepository->findAll()
         ]);
 
     }

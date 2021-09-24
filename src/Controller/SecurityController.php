@@ -10,7 +10,9 @@ use App\Entity\User;
 use App\Entity\Zone;
 use App\Form\ProductType;
 use App\Form\UserType;
+use App\Repository\CategoryRepository;
 use App\Repository\ItemRepository;
+use App\Repository\ZoneRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorException;
@@ -101,7 +103,7 @@ class SecurityController extends  AbstractController
 
         }
         $this->addFlash('success',"Compte Entreprise non-activé");
-        return $this->redirectToRoute('user.profile');
+        return $this->redirectToRoute('user.login');
     }
 
 
@@ -121,7 +123,7 @@ class SecurityController extends  AbstractController
         return $this->render('pages/create_user_choice.html.twig');
     }
 
-    public function createCompany(Request $request) {
+    public function createCompany(Request $request,ZoneRepository $zoneRepository,CategoryRepository $categoryRepository) {
 
         $company = new User();
         $form = $this->createForm(UserType::class,$company);
@@ -167,7 +169,9 @@ class SecurityController extends  AbstractController
 
         }
         return $this->render('pages/create_company.html.twig',[
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            "zones" => $zoneRepository->findAll(),
+            "categories" => $categoryRepository->findAll()
         ]);
     }
 

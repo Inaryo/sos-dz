@@ -16,18 +16,16 @@
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
-    {{ form_start(form) }}
-    <button type="submit">go</button>
-    {{ form_end(form) }}
+{#    {{ form_start(form) }}#}
+{#    <button type="submit">go</button>#}
+{#    {{ form_end(form) }}#}
     <section class="adding_business">
         {% block  nav %}{{ parent() }}{% endblock %}
 
         <h1>Adding Business</h1>
         <div class="line"></div>
-        <form action="" class="business-form">
-            <label
-            ><span class="text-label">Logo</span> <input type="text"
-                /></label>
+        <form action="{{ path('home') }}" method="post" class="business-form">
+
             <label
             ><span class="text-label">Name</span> <input type="text"
                 /></label>
@@ -35,22 +33,31 @@
             ><span class="text-label">E-mail</span> <input type="email"
                 /></label>
             <label
-            ><span class="text-label">Password</span> <input type="text"
-                /></label>
-            <label
-            ><span class="text-label">Category</span> <input type="text"
-                /></label>
-            <label
-            ><span class="text-label">Zone</span> <input type="text"
+            ><span class="text-label">Password</span> <input type="password"
                 /></label>
             <label
             ><span class="text-label">PhoneNumber</span> <input type="text"
                 /></label>
             <label
-            ><span class="text-label">Location</span><input type="text"
-                /></label>
+            ><span class="text-label">Category</span>
+                <select name="categories" id="category-select">
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <label
+            ><span class="text-label">Zone</span>
+                <select name="zones" id="zone-select">
+                    {% for zone in zones %}
+                        <option value="{{ zone.id }}">{{ zone.name }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <button type="submit" class="add-button">Add</button>
         </form>
-        <a href="#" class="add-button">Add</a>
+
     </section>
 
 {% endblock %}

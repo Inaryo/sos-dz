@@ -48,7 +48,7 @@
                 <tr class="row">
                     <td class="name">{{ category.name }}</td><!--Name value-->
                     <td>
-                        <a href="{{ path('admin.category.edit',{'id': category.id }) }}">Editer</a>
+                        <a class="filter-button" href="{{ path('admin.category.edit',{'id': category.id }) }}">Editer</a>
 
                         {# <form method="post" action="{{ path('admin.category.remove',{id: category.id}) }}" #}
                         {# onsubmit="return confirm('Are you sure ?')"> #}

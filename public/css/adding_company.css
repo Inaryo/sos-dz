@@ -53,6 +53,28 @@ h1 {
     font-weight: 500;
     font-size: 18px;
 }
+.business-form label select option {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 40px;
+    border: #06cc69 2px solid;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.business-form label select  {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    height: 40px;
+    border: #06cc69 2px solid;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 18px;
+}
+
 
 .business-form label input:focus {
     outline: none;
