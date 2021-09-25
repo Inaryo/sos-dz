@@ -66,8 +66,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "Inaryo\\": "bundle/Inaryo"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {
